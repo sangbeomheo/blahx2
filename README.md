@@ -1,21 +1,5 @@
-# blahx2
-익명 질문 서비스
+## Week 1
 
-## 주요 기능
-* 이벤트를 생성한 뒤 익명으로 질문을 등록합니다.
-* 이벤트 생성한 사용자는 이벤트를 마감할 수 있습니다.
-* 사용자는 등록된 질문에 좋아요를 클릭할 수 있습니다.
-  * 한번 좋아요 클릭한 뒤 2번 좋아요할 수 없습니다.
-* 익명 질문은 최대 300자까지만 지원합니다.
-
-## .env 파일 템플릿
-```
-publicApiKey=퍼블릭key
-projectId=프로젝트id
-FIREBASE_AUTH_HOST={프로젝트id}.firebaseapp.com
-privateKey=프라이빗key
-clientEmail=이메일
-PORT=3000
-HOST=localhost
-PROTOCOL=http
-```
+- 파이어베이스 기본 환경 설정과 메인화면 UI 일부 적용함
+- 리얼타임 파이어베이스는 큰json파일로 되어있어서 쿼리 넣고뺴고할 때 오류가 생길수도.. Firestore가 좀더 고도화된 기능
+- 차크라UI쓰는 이유 : 빠르고 예쁘게 그리기위해 갖다씀
