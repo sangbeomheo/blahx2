@@ -33,7 +33,11 @@ module.exports = {
         argsIgnorePattern: 'res|next|stage|^err|on|config|e',
       },
     ],
-    'arrow-body-style': ['error', 'as-needed', { requireReturnForObjectLiteral: false }],
+    'arrow-body-style': [
+      'error',
+      'as-needed',
+      { requireReturnForObjectLiteral: false },
+    ],
     'no-param-reassign': [
       2,
       {

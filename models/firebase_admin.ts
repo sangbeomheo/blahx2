@@ -9,7 +9,7 @@ interface Config {
 }
 
 export default class FirebaseAdmin {
-  public static instance: FirebaseAdmin;
+  private static instance: FirebaseAdmin;
 
   private init = false;
 
