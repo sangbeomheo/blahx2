@@ -1,22 +1,19 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import MemberModel from '@/models/member/member.model';
+
+import MemberCtrl from '@/controllers/member.ctrl';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { uid, email, displayName, photoURL } = req.body;
-
-  if (uid === undefined || uid === null) {
-    res.status(400).json({ result: false, message: 'uid가 누락되었습니다.' });
+  const { method } = req;
+  const supportMethod = ['POST'];
+  try {
+    if (supportMethod.indexOf(method!) === -1) {
+      // 에러반환
+    }
+    await MemberCtrl.add(req, res);
+  } catch (err) {
+    console.error(err);
+    // 에러처리
   }
-  if (email === undefined || email === null) {
-    res.status(400).json({ result: false, message: 'email이 누락되었습니다.' });
-  }
-
-  const addResult = await MemberModel.add({ uid, email, displayName, photoURL });
-
-  if (addResult.result === true) {
-    return res.status(200).json(addResult);
-  }
-  res.status(500).json(addResult);
 }
