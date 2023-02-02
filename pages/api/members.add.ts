@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from 'next';
-import FirebaseAdmin from '@/models/firebase_admin';
+import MemberModel from '@/models/member/member.model';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { uid, email, displayName, photoURL } = req.body;
@@ -13,37 +13,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(400).json({ result: false, message: 'email이 누락되었습니다.' });
   }
 
-  try {
-    const screenName = (email as string).replace('@gmail.com', '');
-    const addResult = await FirebaseAdmin.getInstance().Firestore.runTransaction(async (transaction) => {
-      const memberRef = FirebaseAdmin.getInstance().Firestore.collection('members').doc(uid);
-      const screenNameRef = FirebaseAdmin.getInstance().Firestore.collection('screen_names').doc(screenName);
+  const addResult = await MemberModel.add({ uid, email, displayName, photoURL });
 
-      const memberDoc = await transaction.get(memberRef);
-
-      if (memberDoc.exists) {
-        return false;
-      }
-
-      const addData = {
-        uid,
-        email,
-        displayName: displayName ?? '',
-        photoURL: photoURL ?? '',
-      };
-
-      await transaction.set(memberRef, addData);
-      await transaction.set(screenNameRef, addData);
-      return true;
-    });
-
-    if (addResult === false) {
-      return res.status(201).json({ result: true, id: uid });
-    }
-
-    return res.status(200).json({ result: true, id: uid });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ result: false });
+  if (addResult.result === true) {
+    return res.status(200).json(addResult);
   }
+  res.status(500).json(addResult);
 }
